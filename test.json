@@ -1,0 +1,86 @@
+[
+    {
+        "id": 1407908081531,
+        "name": 670208919629,
+        "type": "text",
+        "valor": "Diego",
+        "pregunta": "Nombre"
+    },
+    {
+        "id": 1131811745493,
+        "name": 1291555179584,
+        "type": "number",
+        "valor": "17",
+        "entero": true,
+        "maximo": "20",
+        "minimo": "10",
+        "pregunta": "Edad"
+    },
+    {
+        "id": 1370170154084,
+        "name": 1652124667578,
+        "type": "date",
+        "valor": "2023-12-06",
+        "pregunta": "Fecha de Nacimiento"
+    },
+    {
+        "id": 783224560164,
+        "name": 1121387575261,
+        "type": "time",
+        "valor": "01:00",
+        "pregunta": "Horas de Estudio"
+    },
+    {
+        "id": 439278767676,
+        "name": 1109607725792,
+        "type": "checkbox",
+        "valor": [
+            "laptop"
+        ],
+        "opciones": [
+            {
+                "id": 115164939192,
+                "valor": "tv",
+                "opcion": "TV",
+                "checked": false
+            },
+            {
+                "id": 705111954750,
+                "valor": "celular",
+                "opcion": "Celular",
+                "checked": false
+            },
+            {
+                "id": 978297773317,
+                "valor": "laptop",
+                "opcion": "Laptop",
+                "checked": true
+            }
+        ],
+        "pregunta": "Cuentas con"
+    },
+    {
+        "id": 610782297317,
+        "name": 1173526082797,
+        "type": "radio",
+        "valor": "masculino",
+        "opciones": [
+            {
+                "id": 17144402499,
+                "valor": "masculino",
+                "opcion": "Masculino"
+            },
+            {
+                "id": 284333141640,
+                "valor": "no binario",
+                "opcion": "No Binario"
+            },
+            {
+                "id": 755900529358,
+                "valor": "femenino",
+                "opcion": "Femenino"
+            }
+        ],
+        "pregunta": "Genero"
+    }
+]

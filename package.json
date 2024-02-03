@@ -1,0 +1,32 @@
+{
+  "name": "testme-front",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@formkit/icons": "^1.4.0",
+    "@formkit/vue": "^1.4.0",
+    "@headlessui/vue": "^1.7.17",
+    "axios": "^1.6.5",
+    "pinia": "^2.1.7",
+    "sweetalert2": "^11.10.3",
+    "uid": "^2.0.2",
+    "vue": "^3.3.11",
+    "vue-router": "^4.2.5",
+    "vue3-circle-progress": "^1.0.7",
+    "vue3-circle-progress-bar": "^1.0.9",
+    "vue3-toastify": "^0.2.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.2",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.0.10"
+  }
+}
