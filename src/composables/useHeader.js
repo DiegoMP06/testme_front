@@ -5,6 +5,32 @@ export default function useHeader() {
     const animar = ref(false);
     const submenu = ref(false);
     const subanimar = ref(false);
+    const menuUser = ref(false);
+    const animarUser = ref(false);
+
+    function handleClickMenuUser() {
+        if(menuUser.value) {
+            quitarMenuUser();
+        } else {
+            mostrarMenuUser();
+        }
+    }
+
+    function mostrarMenuUser() {
+        menuUser.value = true;
+
+        setTimeout(() => {
+            animarUser.value = true;
+        }, 300);
+    }
+
+    function quitarMenuUser() {
+        animarUser.value = false;
+
+        setTimeout(() => {
+            menuUser.value = false;
+        }, 300);
+    }
 
     function handleClickMenu() {
         if(menu.value) {
@@ -54,6 +80,14 @@ export default function useHeader() {
         }, 300);
     }
     
+    const isOpenMenuUser = computed(() => {
+        return menuUser.value;
+    });
+
+    const isAnimarUser = computed(() => {
+        return animarUser.value;
+    });
+
     const isOpenMenu = computed(() => {
         return menu.value;
     });
@@ -71,10 +105,13 @@ export default function useHeader() {
     });
 
     return {
+        handleClickMenuUser,
         handleClickMenu,
         handleClickSubMenu,
+        isOpenMenuUser,
         isOpenMenu,
         isOpenSubMenu,
+        isAnimarUser,
         isAnimar,
         isSubAnimar,
     };

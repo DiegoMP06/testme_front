@@ -1,6 +1,7 @@
 import { onMounted, ref, computed } from "vue";
 import { toast } from "vue3-toastify";
 import TestService from "@/services/TestService";
+import { formatearMetaLinks } from "@/helpers";
 
 export default function useTests() {
     const page = ref(1);
@@ -19,7 +20,7 @@ export default function useTests() {
 
         TestService.index(page.value)
         .then(({data}) => {
-            data.links.links = data.meta.links.filter(link => link.label !== 'Next &raquo;' && link.label !== '&laquo; Previous');
+            data.links.links = formatearMetaLinks(data.meta);
 
             tests.value = data.data;
             links.value = data.links;
@@ -33,15 +34,15 @@ export default function useTests() {
         const test = {...tests.value.find(test => test.id === id)};
         toast.warn(test.version[0].publico ? 'Ocultando Test' : 'Publicando Test');
 
-        TestService.editarVersion(test.version[0].id, {publico: !test.version[0].publico})
-            .then(({data: {version: {publico}}}) => {
-                test.version[0].publico = publico ? 1 : 0;
+        TestService.editarVersion(test.version[0].id, test.id, {publico: !test.version[0].publico})
+            .then(({data: {data: [data]}}) => {
+                test.version[0].publico = data.publico;
                 tests.value = tests.value.map(testState => testState.id === id ? test : testState);
 
-                toast.success(test.publico ? 'Se Oculto el Test' : 'Se Publico el Test');
+                toast.success(!test.version[0].publico ? 'Se Oculto el Test' : 'Se Publico el Test');
             })
             .catch(() => {
-                toast.error(test.publico ? 'No Se Pudo Ocultar el Test' : 'No Se Pudo Publicar el Test');
+                toast.error(test.version[0].publico ? 'No Se Pudo Ocultar el Test' : 'No Se Pudo Publicar el Test');
             });
     }
 

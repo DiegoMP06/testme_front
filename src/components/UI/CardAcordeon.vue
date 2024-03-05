@@ -56,7 +56,7 @@
         <div 
             v-if="animar"
             :class="[isAnimar ? 'max-h-full mt-4' : 'max-h-0 overflow-hidden mt-0 opacity-0']" 
-            class="animar opacity-1"
+            class="animar opacity-1 overflow-y-auto"
         >
             <div
                 :class="{'py-0': !isAnimar}" 

@@ -39,7 +39,7 @@
 
 <style scoped>
     .modal {
-        background-color: rgba(0 0 0 / 0.4);
+        background-color: rgba(0 0 0 / 0.6);
     }
 
     .contenedor-modal {

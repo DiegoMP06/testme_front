@@ -16,7 +16,7 @@
     const rules = {
         required: 'La Cantidad de Alumnos es Obligatoria',
         number: 'La Cantidad de Alumnos es Invalida',
-        min: 'La Cantidad de Alumnos debe Ser Mayor o Igual a 1',
+        min: `La Cantidad de Alumnos debe Ser Mayor o Igual a ${props.sala.alumnos.length > 0 ? props.sala.alumnos.length : 1}`,
         max: 'La Cantidad de Alumnos debe Ser Menor o Igual a 1000'
     };
 </script>
@@ -35,8 +35,8 @@
                 label="Cantidad Maxima de Alumnos: "
                 placeholder="Ej. 20"
                 name="num_alumnos"
-                validation="required|number|min:1|max:1000"
-                min="1"
+                :validation="`required|number|min:${sala.alumnos > 0 ? sala.alumnos : 1}|max:1000`"
+                :min="sala.alumnos > 0 ? sala.alumnos : 1"
                 max="1000"
                 @input="$emit('update:num-alumnos', $event)"
                 :validation-messages="rules"

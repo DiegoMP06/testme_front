@@ -18,8 +18,8 @@
     <div class="bg-white p-4 shadow rounded flex flex-col gap-2">
         <div class="flex justify-between">
             <RouterLink 
-                :to="{name: 'edu.sala', params: {id: sala.id}}" 
-                class="text-lg font-bold text-slate-700"
+                :to="{name: 'edu.sala.tests', params: {id: sala.id}}" 
+                class="text-lg font-bold text-slate-700 truncate"
             >
                 {{ sala.nombre }}
             </RouterLink>
@@ -30,7 +30,7 @@
         </div>
 
         <RouterLink 
-            :to="{name: ''}" 
+            :to="{name: 'user.perfil', params: {user: sala.user.usuario}}" 
             class="text-sm font-normal text-slate-600 flex gap-2"
         >
             <img 

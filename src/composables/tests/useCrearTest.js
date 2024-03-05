@@ -88,7 +88,7 @@ export default function useCrearTest() {
     const rules = {
         nombre: {
             required: 'El Nombre es Obligatorio',
-            length: 'En Nombre Debe Tener Maximo 100 Caracteres'
+            length: 'El Nombre Debe Tener Maximo 100 Caracteres'
         },
         categoria_id: {
             required: 'La Categoria es Obligatoria',
@@ -104,7 +104,7 @@ export default function useCrearTest() {
         },
         pregunta: {
             required: 'La Pregunta es Obligatoria',
-            length: 'La Pregunta Debe Tener Maximo 100 Caracteres'
+            length: 'La Pregunta Debe Tener Maximo 200 Caracteres'
         },
         opcion: {
             required: 'La Opcion es Obligatoria',
@@ -474,8 +474,10 @@ export default function useCrearTest() {
         calcular[tipo]();
 
         if(instrucciones.value.length > 0) {
-            instrucciones.value = instrucciones.value.filter(instruccion => instruccion.max <= puntajeMaximo.value);
+            instrucciones.value = instrucciones.value.filter(instruccion => instruccion.max <= puntajeMaximo.value && instruccion.min >= puntajeMinimo.value);
             puntajeActual.value = instrucciones.value[instrucciones.value.length - 1].max + 1;
+
+            instrucciones.value[0].min = puntajeMinimo.value;
         } else {
             puntajeActual.value = puntajeMinimo.value;
         }

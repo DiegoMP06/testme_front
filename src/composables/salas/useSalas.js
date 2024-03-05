@@ -1,3 +1,4 @@
+import { formatearMetaLinks } from "@/helpers";
 import SalaService from "@/services/SalaService";
 import { onMounted, ref, computed } from "vue";
 
@@ -19,7 +20,7 @@ export default function useSalas() {
 
         SalaService.obtenerSalas(page.value)
             .then(({data}) => {
-                data.links.links = data.meta.links.filter(link => link.label !== 'Next &raquo;' && link.label !== '&laquo; Previous');
+                data.links.links = formatearMetaLinks(data.meta);
 
                 salas.value = data.data;
                 links.value = data.links;

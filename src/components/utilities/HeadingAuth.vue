@@ -1,3 +1,3 @@
 <template>
-    <h1 class="text-center text-4xl md:text-2xl font-extrabold text-emerald-800"><slot></slot></h1>
+    <h1 class="text-2xl font-bold text-emerald-800 mb-5"><slot></slot></h1>
 </template>

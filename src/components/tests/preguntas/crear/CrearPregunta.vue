@@ -42,7 +42,7 @@
                 name="pregunta"
                 placeholder="Pregunta"
                 :label="`Pregunta ${getCountPregunta}: `"
-                validation="required|length:0,100"
+                validation="required|length:0,200"
                 :validation-messages="rules.pregunta"
                 v-model="pregunta.pregunta"
             />

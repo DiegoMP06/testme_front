@@ -1,24 +1,19 @@
 <script setup>
-    import Header from '@/components/header/Header.vue';
+    import PrincipalSlotLayout from './PrincipalSlotLayout.vue';
+    import Spinner from '@/components/UI/Spinner.vue';
+    import { useAuthStore } from '@/stores/auth';
 
-    const enlaces = [
-        {
-            name: 'auth.login',
-            texto: 'Iniciar Sesion',
-            middleware: ['guest'],
-        },
-        {
-            name: 'auth.register',
-            texto: 'Crear Cuenta',
-            middleware: ['guest'],
-        }
-    ]
+    const authStore = useAuthStore();
 </script>
 
 <template>
-    <Header :enlaces="enlaces" :submenu="false" />
+    <PrincipalSlotLayout>
+        <template v-slot:contenido>
+            <Spinner v-if="authStore.cargando" />
 
-    <main class="px-4 my-8 md:px-0 container mx-auto mt-36">
-        <RouterView/>
-    </main>
+            <div v-else class="bg-white mt-20 p-6 shadow-lg max-w-3xl mx-auto">
+                <RouterView />
+            </div>
+        </template>
+    </PrincipalSlotLayout>
 </template>

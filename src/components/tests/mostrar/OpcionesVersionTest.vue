@@ -18,8 +18,8 @@
     });
 
     const emits = defineEmits([
-        'editar-publico',
-        'editar-respuestas',
+        'handle-click-actualizar-publico',
+        'handle-click-actualizar-respuestas',
         'handle-click-eliminar-version',
     ]);
 </script>
@@ -37,7 +37,7 @@
                     
                     <button 
                         v-if="isPublico" 
-                        @click="$emit('editar-publico', versionTestId)" 
+                        @click="$emit('handle-click-actualizar-publico', versionTestId)" 
                         type="button" 
                         class="bg-rose-800 hover:bg-rose-900 text-white flex gap-2 justify-center py-2 px-4 font-bold "
                     >
@@ -49,7 +49,7 @@
 
                     <button 
                         v-else 
-                        @click="$emit('editar-publico', versionTestId)"
+                        @click="$emit('handle-click-actualizar-publico', versionTestId)"
                         type="button" 
                         class="bg-teal-800 hover:bg-teal-900 text-white flex gap-2 justify-center py-2 px-4 font-bold "
                     >
@@ -73,7 +73,7 @@
                     
                     <button 
                         v-if="hasRespuestas" 
-                        @click="$emit('editar-respuestas', versionTestId)" 
+                        @click="$emit('handle-click-actualizar-respuestas', versionTestId)" 
                         type="button" 
                         class="bg-rose-800 hover:bg-rose-900 text-white flex gap-2 justify-center py-2 px-4 font-bold "
                     >
@@ -85,7 +85,7 @@
 
                     <button 
                         v-else 
-                        @click="$emit('editar-respuestas', versionTestId)" 
+                        @click="$emit('handle-click-actualizar-respuestas', versionTestId)" 
                         type="button" 
                         class="bg-teal-800 hover:bg-teal-900 text-white flex gap-2 justify-center py-2 px-4 font-bold "
                     >

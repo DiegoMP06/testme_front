@@ -12,12 +12,19 @@
         },
         getInstruccion: {
             required: true,
-        }
+        },
+        canWatchRespuestas: {
+            required: true,
+        },
     });
+
+    defineEmits([
+        'handle-click-page',
+    ]);
 </script>
 
 <template>
-    <div class="">
+    <div class="p-2">
         <h2 class="text-lg font-black text-teal-800">
             {{ getInstruccion.titulo }}
         </h2>
@@ -42,5 +49,13 @@
             Contestado el
             {{ formatearFecha(visita.created_at) }}
         </p>
+
+        <button 
+            v-if="canWatchRespuestas" 
+            class="mt-10 text-white font-bold px-4 py-2 bg-teal-700 hover:bg-teal-900 transition-colors" 
+            @click="$emit('handle-click-page', 3)"
+        >
+            Ver Respuestas
+        </button>
     </div>
 </template>

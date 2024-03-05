@@ -31,6 +31,13 @@ export default {
             },
         });
     },
+    obtenerTestsVersiones(salaId, page) {
+        return axios.get(`/api/salas/${salaId}/test-salas?wVersiones=true&wEnlaceTest=true&page=${page}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+        });
+    },
     crear(data) {
         return axios.post('/api/tests', data, {
             headers: {
@@ -53,7 +60,7 @@ export default {
         });
     },
     editarVersion(id, testId, data) {
-        return axios.patch(`/api/tests/${testId}/test-versions/${id}`, data, {
+        return axios.patch(`/api/tests/${testId}/test-versions/${id}?wCategoria=true`, data, {
             headers: {
                 Authorization: `Bearer ${token}`
             },

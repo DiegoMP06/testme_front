@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import SalaService from '@/services/SalaService';
 import { useModalStore } from '@/stores/modal';
+import Swal from 'sweetalert2';
 
 export default function useSala() {
     const route = useRoute();
@@ -28,6 +29,8 @@ export default function useSala() {
         user_id: '',
         created_at: '',
         updated_at: '',
+        alumnos: [],
+        profesores: [],
     });
 
     onMounted(() => {
@@ -50,12 +53,34 @@ export default function useSala() {
         subCargando.value = true;
 
         SalaService.editarSala(sala.id, data)
-            .then(({data: {data: [data]}}) => Object.assign(sala, data))
+            .then(({data: {data: [data]}}) => {
+                Object.assign(sala, data);
+                toast.success(msjs.success);
+            })
             .catch(() => toast.error(msjs.error))
             .finally(() => {
-                toast.success(msjs.success);
                 subCargando.value = false
                 quitarModal();
+            });
+    }
+
+    function eliminarSala() {
+        SalaService.eliminarSala(sala.id)
+            .then(() => {
+                Swal.fire({
+                    title: "Eliminado",
+                    text: "La Sala Se Elimino.",
+                    icon: "success"
+                }).then(() => {
+                    router.push({name: 'dashboard.salas'});
+                });
+            })
+            .catch(() => {
+                Swal.fire({
+                    title: "Error",
+                    text: "La Sala No Se Elimino.",
+                    icon: "error"
+                });
             });
     }
 
@@ -68,7 +93,7 @@ export default function useSala() {
 
         modalStore.handleClickQuitar();
     }
-
+    
     function handleClickActualizarNombre() {
         nombre.value = sala.nombre,
         modalStore.handleClickMostrarModal(2.1);
@@ -163,6 +188,23 @@ export default function useSala() {
         });
     }
 
+    function handleClickEliminarSala() {
+        Swal.fire({
+            title: "Atencion",
+            text: "¿Deseas Salir de la Sala?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si",
+            cancelButtonText: 'No',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                eliminarSala();
+            }
+        });
+    }
+
     const hasNumProfesores = computed(() => {
         return sala.num_profesores > 0;
     });
@@ -198,6 +240,7 @@ export default function useSala() {
         handleClickActualizarPassword,
         handleSubmitPassword,
         handleClickActualizarAcceso,
+        handleClickEliminarSala,
         hasNumProfesores,
         isPublico,
         isAcceso,

@@ -11,20 +11,24 @@ const router = createRouter({
       name: 'bienvenida',
       meta: {
         middleware: [
-          'guest'
+          'guest',
         ]
       },
       component: HomeView
     },
     {
-      path:'/auth',
-      name: 'auth',
+      path: '/404',
+      name: 'not-found',
       meta: {
         middleware: [
           'guest',
-          'to-auth'
         ]
       },
+      component: () => import('../views/UI/404View.vue'),
+    },
+    {
+      path:'/auth',
+      name: 'auth',
       component: () => import('../layouts/AuthLayout.vue'),
       children: [
         {
@@ -32,6 +36,12 @@ const router = createRouter({
           name: 'auth.login',
           props: {
             heading: 'Iniciar Sesion',
+          },
+          meta: {
+            middleware: [
+              'guest',
+              'to-auth'
+            ]
           },
           component: () => import('../views/auth/LoginView.vue'),
         },
@@ -41,8 +51,42 @@ const router = createRouter({
           props: {
             heading: 'Crear Cuenta',
           },
+          meta: {
+            middleware: [
+              'guest',
+              'to-auth'
+            ]
+          },
           component: () => import('../views/auth/RegisterView.vue'),
-        }
+        },
+        {
+          path: '/auth/notification-email',
+          name: 'auth.notification-email',
+          props: {
+            heading: 'Verificar Email',
+          },
+          meta: {
+            middleware: [
+              'auth',
+              'no-verified',
+            ]
+          },
+          component: () => import('../views/auth/NotificationEmailView.vue'),
+        },
+        {
+          path: '/auth/verify-email/:id/:hash',
+          name: 'auth.verify-email',
+          props: {
+            heading: 'Cuenta Verificada',
+          },
+          meta: {
+            middleware: [
+              'auth',
+              'no-verified',
+            ]
+          },
+          component: () => import('../views/auth/VerifyEmailView.vue'),
+        },
       ]
     },
     {
@@ -50,7 +94,8 @@ const router = createRouter({
       name: 'home.tests',
       meta: {
         middleware: [
-          'auth'
+          'auth',
+          'verified'
         ]
       },
       component: () => import('../views/home/HomeView.vue'),
@@ -60,7 +105,8 @@ const router = createRouter({
       name: 'home.salas',
       meta: {
         middleware: [
-          'auth'
+          'auth',
+          'verified'
         ]
       },
       component: () => import('../views/home/HomeSalasView.vue'),
@@ -72,6 +118,7 @@ const router = createRouter({
         middleware: [
           'auth',
           'teacher',
+          'verified'
         ]
       },
       component: () => import('../layouts/DashboardLayout.vue'),
@@ -112,6 +159,31 @@ const router = createRouter({
           component: () => import('../views/dashboard/salas/SalaView.vue'),
         },
         {
+          path: '/dashboard/salas/:id/alumnos',
+          name: 'dashboard.salas.alumnos',
+          component: () => import('../views/dashboard/salas/AlumnosSalaView.vue'),
+        },
+        {
+          path: '/dashboard/salas/:id/profesores',
+          name: 'dashboard.salas.profesores',
+          component: () => import('../views/dashboard/salas/ProfesoresSalaView.vue'),
+        },
+        {
+          path: '/dashboard/salas/:id/tests',
+          name: 'dashboard.salas.tests',
+          component: () => import('../views/dashboard/salas/TestsSalaView.vue'),
+        },
+        {
+          path: '/dashboard/salas/:id/profesores/add',
+          name: 'dashboard.salas.profesores.add',
+          component: () => import('../views/dashboard/salas/AgregarProfesorView.vue'),
+        },
+        {
+          path: '/dashboard/salas/:salaId/solicitud/:solicitudId',
+          name: 'dashboard.salas.solicitud',
+          component: () => import('../views/dashboard/salas/AceptarSolicitudView.vue'),
+        },
+        {
           path: '/dashboard/salas/crear',
           name: 'dashboard.salas.crear',
           component: () => import('../views/dashboard/salas/CrearSalaView.vue'),
@@ -124,9 +196,10 @@ const router = createRouter({
       meta: {
         middleware: [
           'auth',
+          'verified',
         ]
       },
-      component: () => import('../layouts/EduLayout.vue'),
+      component: () => import('../layouts/PrincipalLayout.vue'),
       children: [
         {
           path: '/edu/test/:id',
@@ -134,9 +207,69 @@ const router = createRouter({
           component: () => import('../views/edu/TestView.vue'),
         },
         {
+          path: '/edu/sala/:salaId/test/:testId',
+          name: 'edu.sala.test',
+          component: () => import('../views/edu/TestView.vue'),
+        },
+        {
           path: '/edu/sala/:id',
           name: 'edu.sala',
-          component: () => import('../views/edu/SalaView.vue'),
+          component: () => import('../layouts/SalaEduLayout.vue'),
+          children: [
+            {
+              path: '/edu/sala/:id/alumnos',
+              name: 'edu.sala.alumnos',
+              component: () => import('../views/edu/sala/AlumnosView.vue'),
+            },
+            {
+              path: '/edu/sala/:id/profesores',
+              name: 'edu.sala.profesores',
+              component: () => import('../views/edu/sala/ProfesoresView.vue'),
+            },
+            {
+              path: '/edu/sala/:id/tests',
+              name: 'edu.sala.tests',
+              component: () => import('../views/edu/sala/TestsView.vue'),
+            },
+            {
+              path: '/edu/sala/:id/tests/add',
+              name: 'edu.sala.tests.add',
+              component: () => import('../views/edu/sala/NuevoTestView.vue'),
+            },
+          ],
+        },
+      ],
+    }, 
+    {
+      path: '/:user',
+      name: 'user',
+      meta: {
+        middleware: [
+          'auth',,
+          'verified'
+        ]
+      },
+      component: () => import('../layouts/PrincipalLayout.vue'),
+      children: [
+        {
+          path: '/:user/perfil',
+          name: 'user.perfil',
+          component: () => import('../views/users/PerfilView.vue'),
+        },
+        {
+          path: '/:user/salas',
+          name: 'user.salas',
+          component: () => import('../views/users/SalasView.vue'),
+        },
+        {
+          path: '/:user/visitas',
+          name: 'user.visitas',
+          component: () => import('../views/users/VisitasView.vue'),
+        },
+        {
+          path: '/:user/admin',
+          name: 'user.admin',
+          component: () => import('../views/users/AdminView.vue'),
         },
       ],
     }
@@ -149,30 +282,37 @@ router.beforeEach(async (to, from, next) => {
   const middleware = to.meta?.middleware;
 
   try {
-    const user = await AuthService.user(AUTH_TOKEN);
-    authStore.user = user.data;
+    const {data: {data: [user]}} = await AuthService.user(AUTH_TOKEN);
+    authStore.user = user;
   } catch {
     authStore.user = null;
   }
-  
-  if(middleware.includes('teacher') && authStore.user && authStore.user.cargo_id === 1) {
-    next({name: 'home.tests'})
-  }
 
-  if(middleware.includes('auth') && authStore.user) {
+  if(authStore.isAuth && middleware?.includes('auth')) {
+    if(!authStore.isVerificado && middleware.includes('verified')) {
+      next({name: 'auth.notification-email'});
+      return;
+    }
+
+    if(authStore.isVerificado && middleware.includes('no-verified')) {
+      next({name: 'home.tests'});
+    }
+
+    if(!authStore.isTeacher && middleware?.includes('teacher')) {
+      next({name: 'home.tests'});
+      return;
+    } 
+
     next();
-  }
+  } else if(middleware?.includes('guest')) {
+    if(authStore.isAuth && middleware?.includes('to-auth')) {
+      next({name: 'home.tests'})
+      return;
+    }
 
-  if(middleware.includes('to-auth') && authStore.user) {
-    next({name: 'home.tests'})
-  }
-
-  if(middleware.includes('auth') && !authStore.user) {
+    next();
+  } else {
     next({name: 'auth.login'})
-  }
-
-  if(middleware.includes('guest')) {
-    next();
   }
 });
 

@@ -19,7 +19,7 @@
 </script>
 
 <template>
-    <div class="bg-teal-700 px-4 py-2">
+    <div class="bg-teal-700 px-4 py-2 z-50">
         <button type="button" class="p-2 hover:bg-emerald-950 rounded block md:hidden" @click="$emit('handle-click-sub-menu')">
             <span class="text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

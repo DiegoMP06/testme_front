@@ -84,7 +84,7 @@
             </button>
         </template>
 
-        <template v-slot:footer v-if="isMultiple">
+        <template v-slot:footer>
             <div class="pt-4 flex flex-col-reverse gap-4 md:flex-row justify-between">
                 <p 
                     class="text-sm font-black"
@@ -94,6 +94,7 @@
                 </p>
 
                 <FormKit 
+                    v-if="isMultiple"
                     type="form"
                     :actions="false"
                     :value="campo.extras"

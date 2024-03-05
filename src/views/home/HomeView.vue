@@ -1,10 +1,9 @@
 <script setup> 
     import useBusquedaHome from '@/composables/useBusquedaHome';
-    import Header from '@/components/header/Header.vue';
     import Paginacion from '@/components/UI/Paginacion.vue';
     import TestHome from '@/components/tests/mostrar/TestHome.vue';
     import Spinner from '@/components/UI/Spinner.vue';
-    import { enlaces } from '@/helpers';
+    import PrincipalSlotLayout from '@/layouts/PrincipalSlotLayout.vue';
 
     const {
         cargando,
@@ -22,7 +21,9 @@
 </script>
 
 <template>
-    <Header :enlaces="enlaces" :submenu="true">
+    <PrincipalSlotLayout 
+        :submenu="true"
+    >
         <template v-slot:submenu>
             <div class="px-4 md:px-0 container mx-auto">
                 <form class="flex md:items-center flex-col md:flex-row gap-6" @submit.prevent="handleClickBuscar">
@@ -73,31 +74,33 @@
                 </form>
             </div>
         </template>
-    </Header>
 
-    <main class="px-4 container mx-auto pt-44 md:pt-60 lg:pt-44 pb-8 min-h-screen">
-        <Spinner 
-            v-if="cargando"
-        />
-
-        <div v-else>
-            <div v-if="hasTests" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-                <TestHome 
-                    v-for="test in tests"
-                    :key="test.id"
-                    :test="test"
+        <template v-slot:contenido>
+            <div class="pt-16 md:pt-28 lg:pt-14">
+                <Spinner 
+                    v-if="cargando"
                 />
-
+             
+                <div v-else>
+                    <div v-if="hasTests" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        <TestHome 
+                            v-for="test in tests"
+                            :key="test.id"
+                            :test="test"
+                        />
+        
+                    </div>
+        
+                    <p v-else class="text-center text-lg font-extrabold">No Hay Tests</p>
+            
+                    <Paginacion 
+                        :meta="meta"
+                        :links="links"
+                        :page="page"
+                        @obtener-datos="buscarTests"
+                    />
+                </div>
             </div>
-
-            <p v-else class="text-center text-lg font-extrabold">No Hay Tests</p>
-    
-            <Paginacion 
-                :meta="meta"
-                :links="links"
-                :page="page"
-                @obtener-datos="buscarTests"
-            />
-        </div>
-    </main>
+        </template>
+    </PrincipalSlotLayout>
 </template>

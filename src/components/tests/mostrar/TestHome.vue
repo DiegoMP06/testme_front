@@ -15,13 +15,13 @@
 
         <RouterLink 
             :to="{name: 'edu.test', params: {id: test.id}}" 
-            class="text-lg font-bold text-slate-700"
+            class="text-lg font-bold text-slate-700 truncate"
         >
             {{ test.nombre }}
         </RouterLink>
 
         <RouterLink 
-            :to="{name: ''}" 
+            :to="{name: 'user.perfil', params: {user: test.user.usuario}}" 
             class="text-sm font-normal text-slate-600 flex gap-2"
         >
             <img 

@@ -1,17 +1,34 @@
 <script setup>
     import { RouterLink } from 'vue-router';
+    import { useModalStore } from '@/stores/modal';
     import useTest from '@/composables/tests/useTest';
     import Spinner from '@/components/UI/Spinner.vue';
     import HeadingDashboard from '@/components/dashboard/HeadingDashboard.vue';
     import VersionTest from '@/components/tests/mostrar/VersionTest.vue';
     import { formatearVersion } from '@/helpers';
+    import ModalDashboard from '@/components/UI/ModalDashboard.vue';
+    import EditarNombre from '@/components/tests/editar/EditarNombre.vue';
+    import EditarDescripcion from '@/components/tests/editar/EditarDescripcion.vue';
+    import EditarCategoria from '@/components/tests/editar/EditarCategoria.vue';
+
+    const modalStore =  useModalStore();
 
     const {
         cargando,
-        test,
+        subCargando,
         page,
-        editarPublico,
-        editarRespuestas,
+        test,
+        version,
+        selectsCategorias,
+        quitarModal,
+        handleSubmitNombre,
+        handleClickActualizarNombre,
+        handleSubmitDescripcion,
+        handleClickActualizarDescripcion,
+        handleSubmitCategoria,
+        handleClickActualizarCategoria,
+        handleClickActualizarPublico,
+        handleClickActualizarRespuestas,
         handleClickEliminarTest,
         handleClickEliminarVersion,
         handleClickPage,
@@ -50,8 +67,11 @@
                 :version-test="versionTest"
                 :page="page"
                 :can-delete-version="canDeleteVersion"
-                @editar-publico="editarPublico"
-                @editar-respuestas="editarRespuestas"
+                @handle-click-actualizar-nombre="handleClickActualizarNombre"
+                @handle-click-actualizar-descripcion="handleClickActualizarDescripcion"
+                @handle-click-actualizar-categoria="handleClickActualizarCategoria"
+                @handle-click-actualizar-publico="handleClickActualizarPublico"
+                @handle-click-actualizar-respuestas="handleClickActualizarRespuestas"
                 @handle-click-eliminar-version="handleClickEliminarVersion"
             />
 
@@ -93,4 +113,29 @@
             </div>
         </div>
     </div>
+
+    <ModalDashboard 
+        v-if="modalStore.isModal"
+        :sub-cargando="subCargando"
+        @quitar-modal="quitarModal"
+    >
+        <EditarNombre 
+            v-if="modalStore.hasModal === 3.1"
+            :version="version"
+            @handle-submit-nombre="handleSubmitNombre"
+        />
+        
+        <EditarDescripcion 
+            v-else-if="modalStore.hasModal === 3.2"
+            :version="version"
+            @handle-submit-descripcion="handleSubmitDescripcion"
+        />
+
+        <EditarCategoria 
+            v-else
+            :version="version"
+            :selects-categorias="selectsCategorias"
+            @handle-submit-categoria="handleSubmitCategoria"
+        />
+    </ModalDashboard>
 </template>

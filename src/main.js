@@ -3,7 +3,7 @@ import 'vue3-toastify/dist/index.css';
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import {plugin, defaultConfig} from '@formkit/vue'
+import { plugin, defaultConfig } from '@formkit/vue'
 import Vue3Toastify from 'vue3-toastify'
 
 import App from './App.vue'

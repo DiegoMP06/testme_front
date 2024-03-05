@@ -1,13 +1,27 @@
 <script setup>
     import { formatearFecha } from '@/helpers';
-import { RouterLink } from 'vue-router';
+    import { RouterLink } from 'vue-router';
 
     const props = defineProps({
         sala: {
             type: Object,
             required: true,
+        }, 
+        canUnirse: {
+            required: true,
+        },
+        isEnlazado: {
+            required: true,
+        }, 
+        isCreador: {
+            required: true,
         }
     });
+
+    defineEmits([
+        'handle-click-enlazar',
+        'handle-click-eliminar-enlace'
+    ]);
 </script>
 
 <template>
@@ -47,8 +61,43 @@ import { RouterLink } from 'vue-router';
                 </p>
 
                 <p class="text-white font-bold">
-                    {{ sala.alumnos.length }} de {{ sala.num_alumnos }} Alumnos.
+                    {{ sala.alumnos }} de {{ sala.num_alumnos }} Alumnos.
                 </p>
+            </div>
+        </div>
+
+        <div class="py-2">
+            <div v-if="isCreador">
+                <RouterLink 
+                    :to="{name: 'dashboard.salas.index', params: {id: sala.id}}"
+                    class="py-2 px-3 bg-white hover:bg-slate-100 inline-block font-bold text-teal-800"
+                >
+                    Administrar Sala
+                </RouterLink>
+            </div>
+
+            <div v-else>
+                <button 
+                    v-if="isEnlazado" 
+                    @click="$emit('handle-click-eliminar-enlace')"
+                    class="flex gap-2 text-white px-4 py-2 font-bold bg-rose-700 hover:bg-rose-800"
+                >
+                    Salirse
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>                               
+                </button>
+    
+                <button 
+                    v-else-if="canUnirse"
+                    @click="$emit('handle-click-enlazar')"
+                    class="flex gap-2 text-teal-800 px-4 py-2 font-bold bg-white hover:bg-slate-100"
+                >
+                    Unirse
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>                  
+                </button>
             </div>
         </div>
     </aside>

@@ -20,9 +20,9 @@
 
 <template>
     <div
-        :class="[isAnimar ? 'translate-x-0 opacity-100' : 'translate-x-96 opacity-0']" 
         v-if="isOpenMenu" 
-        class="md:hidden fixed top-0 bottom-0 left-0 right-0 flex transition-all"
+        :class="[isAnimar ? 'translate-x-0 opacity-100' : 'translate-x-96 opacity-0']" 
+        class="md:hidden fixed top-0 bottom-0 left-0 right-0 flex transition-all z-50"
     >
         <button 
             @click="$emit('handle-click-menu')"
@@ -40,13 +40,17 @@
         ></div>
 
         <div 
-            class="bg-emerald-700 w-2/3 border-l-2 border-l-teal-800"
+            class="bg-emerald-700 w-2/3"
         >
-            <nav class="px-4 mt-8 flex flex-col text-teal-100">
-                <RouterLink :to="{}" class="mb-6" v-if="authStore.isAuth">
+            <nav class="px-4 mt-8 flex flex-col text-teal-100 gap-1">
+                <RouterLink :to="{name: 'user.perfil', params: {user: authStore.user.usuario}}" class="mb-6" v-if="authStore.isAuth">
                     <EnlacePerfil />
                 </RouterLink>
                 <slot></slot>
+
+                <button v-if="authStore.isAuth" class="font-bold" @click="authStore.logout">
+                    Cerrar Sesion
+                </button>
             </nav>
         </div>
     </div>

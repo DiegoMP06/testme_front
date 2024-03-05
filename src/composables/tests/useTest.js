@@ -1,15 +1,20 @@
 import { onMounted, ref, reactive, computed } from "vue";
 import {useRoute, useRouter} from 'vue-router'
 import { toast } from "vue3-toastify";
+import { useModalStore } from "@/stores/modal";
 import Swal from 'sweetalert2'
 import TestService from "@/services/TestService";
 
 export default function useTest() {
     const router = useRouter();
     const route = useRoute();
+    const modalStore = useModalStore();
     
     const page = ref(null);
     const cargando = ref(false);
+    const subCargando = ref(false);
+
+    const selectsCategorias = ref([]);
 
     const test = reactive({
         id: null,
@@ -20,12 +25,37 @@ export default function useTest() {
         versiones: [],
     });
 
+    const version =  reactive({
+        id: null,
+        nombre: '',
+        descripcion: '',
+        respuestas: 0,
+        publico: 0,
+        version: '',
+        test_id: '',
+        categoria_id: '',
+        tipo_id: '',
+        created_at: '',
+        updated_at: '',
+    });
+
     onMounted(async () => {
         try {
             cargando.value = true;
-            const {data: {data: [data]}} = await TestService.show(route.params.id);
-            Object.assign(test, data);
+            const [{data: {data: [dataTest]}}, {data: {data: dataCategorias}}] = await Promise.all([
+                TestService.show(route.params.id),
+                TestService.obtenerCategorias(),
+            ]);
+
+            Object.assign(test, dataTest);
             page.value = test.versiones[test.versiones.length-1].id;
+
+            selectsCategorias.value = [{
+                label: '-- Seleccione --',
+                value: '',
+            }];
+
+            dataCategorias.forEach(({categoria: label, id: value}) => selectsCategorias.value = [...selectsCategorias.value, {label, value}]);
         } catch (error) {
             if(error?.response?.status === 404 || error?.response?.status === 403) {
                 router.push({name: 'dashboard.tests'})
@@ -37,36 +67,59 @@ export default function useTest() {
         }
     });
 
-    function editarPublico(id) {
-        const version = {...test.versiones.find(versionState => versionState.id === id)};
-        toast.warn(version.publico ? 'Ocultando Test' : 'Publicando Test');
+    function editarVersionTest(msjs = {warn: '', success: '', error: ''}) {
+        toast.warn(msjs.warn);
+        subCargando.value = true;
 
-        TestService.editarVersion(id, test.id, {publico: !version.publico})
-            .then(({data: {version: {publico}}}) => {
-                version.publico = publico ? 1 : 0;
-                test.versiones = test.versiones.map(versionState => versionState.id === id ? version : versionState);
-
-                toast.success(test.publico ? 'Se Oculto el Test' : 'Se Publico el Test');
+        TestService.editarVersion(version.id, test.id, version)
+            .then(({data: {data: [dataVersion]}}) => {
+                Object.assign(version, dataVersion);
+                test.versiones = test.versiones.map(versionState => versionState.id === dataVersion.id ? {...version} : versionState);
+                toast.success(msjs.success);
             })
-            .catch(() => {
-                toast.error(test.publico ? 'No Se Pudo Ocultar el Test' : 'No Se Pudo Publicar el Test');
+            .catch(() => toast.error(msjs.error))
+            .finally(() => {
+                subCargando.value = false;
+                quitarModal();
             });
     }
 
-    function editarRespuestas(id) {
-        const version = {...test.versiones.find(versionState => versionState.id === id)};
-        toast.warn(test.respuestas ? 'Ocultando Respuestas del Test' : 'Publicando Respuestas del Test');
+    function quitarModal() {
+        Object.assign(version, {
+            id: null,
+            nombre: '',
+            descripcion: '',
+            respuestas: 0,
+            publico: 0,
+            version: '',
+            test_id: '',
+            categoria_id: '',
+            tipo_id: '',
+            created_at: '',
+            updated_at: '',
+        });
 
-        TestService.editarVersion(id, test.id, {respuestas: !version.respuestas})
-            .then(({data: {version: {respuestas}}}) => {
-                version.respuestas = respuestas ? 1 : 0;
-                test.versiones = test.versiones.map(versionState => versionState.id === id ? version : versionState);
+        modalStore.handleClickQuitar();
+    }
 
-                toast.success(test.publico ? 'Se Ocultaron las Respuestas del Test' : 'Se Publicaron las Respuestas del Test');
-            })
-            .catch(() => {
-                toast.error(test.publico ? 'No Se Pudieron Ocultar las Repuestas' : 'No Se Pudieron Publicar las Respuestas');
-            });
+    function editarPublico() {
+        version.publico = !version.publico;
+
+        editarVersionTest({
+            warn: version.publico ? 'Publicando Test' : 'Ocultando Test',
+            success: version.publico ? 'Se Publico el Test' : 'Se Oculto el Test',
+            error: version.publico ? 'No se Pudo Publicar el Test' : 'No se Pudo Ocultar el Test',
+        });
+    }
+
+    function editarRespuestas() {
+        version.respuestas = !version.respuestas;
+
+        editarVersionTest({
+            warn: version.respuestas ? 'Publicando Respuestas del Test' : 'Ocultando Respuestas del Test',
+            success: version.respuestas ? 'Se Publicaron las Respuestas del Test' : 'Se Ocultaron las Respuestas del Test',
+            error: version.respuestas ? 'No Se Pudo Publicar las Respuestas' : 'No Se Pudo Ocultar las Repuestas',
+        });
     }
 
     async function eliminarTest() {
@@ -143,6 +196,60 @@ export default function useTest() {
         });
     }
 
+    function handleSubmitNombre() {
+        editarVersionTest({
+            warn: 'Actualizando Nombre',
+            success: 'Se Actualizo el Nombre',
+            error: 'No Se Pudo Actualizar el Nombre',
+        });
+    }
+
+    function handleClickActualizarNombre(id) {
+        Object.assign(version, {...test.versiones.find(versionState => versionState.id === id)});
+
+        modalStore.handleClickMostrarModal(3.1);
+    }
+
+    function handleSubmitDescripcion() {
+        editarVersionTest({
+            warn: 'Actualizando Descripcion',
+            success: 'Se Actualizo la Descripcion',
+            error: 'No Se Pudo Actualizar la Descripcion',
+        });
+    }
+
+    function handleClickActualizarDescripcion(id) {
+        Object.assign(version, {...test.versiones.find(versionState => versionState.id === id)});
+
+        modalStore.handleClickMostrarModal(3.2);
+    }
+
+    function handleSubmitCategoria() {
+        editarVersionTest({
+            warn: 'Actualizando Categoria',
+            success: 'Se Actualizo la Categoria',
+            error: 'No Se Pudo Actualizar la Categoria',
+        });
+    }
+
+    function handleClickActualizarCategoria(id) {
+        Object.assign(version, {...test.versiones.find(versionState => versionState.id === id)});
+
+        modalStore.handleClickMostrarModal(3.3);
+    }
+
+    function handleClickActualizarPublico(id) {
+        Object.assign(version, {...test.versiones.find(versionState => versionState.id === id)});
+
+        editarPublico();
+    }
+
+    function handleClickActualizarRespuestas(id) {
+        Object.assign(version, {...test.versiones.find(versionState => versionState.id === id)});
+
+        editarRespuestas();
+    }
+
     function handleClickPage(id) {
         page.value = id;
     }
@@ -153,10 +260,20 @@ export default function useTest() {
 
     return {
         cargando,
+        subCargando,
         page,
         test,
-        editarPublico,
-        editarRespuestas,
+        version,
+        selectsCategorias,
+        quitarModal,
+        handleSubmitNombre,
+        handleClickActualizarNombre,
+        handleSubmitDescripcion,
+        handleClickActualizarDescripcion,
+        handleSubmitCategoria,
+        handleClickActualizarCategoria,
+        handleClickActualizarPublico,
+        handleClickActualizarRespuestas,
         handleClickEliminarTest,
         handleClickEliminarVersion,
         handleClickPage,
