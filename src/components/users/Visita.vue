@@ -6,13 +6,16 @@ import {RouterLink} from 'vue-router'
         visita: {
             type: Object,
             required: true,
+        },
+        sala: {
+            type: [Boolean, null],
         }
     });
 </script>
 
 <template>
-    <div class="bg-slate-100 rounded hover:bg-slate-200 transition-colors p-4">
-        <RouterLink class="text-lg font-bold text-slate-700" :to="{name: 'edu.test', params: {id: visita.test.id}}">
+    <div class="bg-slate-100 rounded hover:bg-slate-200 transition-colors p-4 grid">
+        <RouterLink class="text-lg font-bold text-slate-700 truncate" :to="sala ? {name: 'edu.sala.test', params: {salaId: visita.sala.id, testId: visita.test_sala_id}} : {name: 'edu.test', params: {id: visita.test.id}}">
             {{ visita.test.nombre }}
         </RouterLink>
         
@@ -24,17 +27,24 @@ import {RouterLink} from 'vue-router'
             />
             
             <div class="grid">
-                <p class="">
+                <p class="font-semibold">
                     {{ `${visita.test.user.name} ${visita.test.user.apellido_paterno} ${visita.test.user.apellido_materno}` }}
                 </p>
                 
-                <p class="">
+                <p class="text-xs font-extrabold">
                     {{ visita.test.user.usuario }}
                 </p>
             </div>
         </RouterLink>
-
+        
         <div class="mt-2">
+            <p class="text-slate-700 font-bold mb-3" v-if="sala">
+                Sala:
+                <RouterLink :to="{name: 'edu.sala.tests', params: {id: visita.sala.id}}" class="text-teal-800 font-extrabold"> 
+                    {{ visita.sala.nombre }}
+                </RouterLink>
+            </p>
+
             <p class="text-slate-700 font-bold">
                 Obtuviste 
                 <span class="text-teal-700">
@@ -51,5 +61,5 @@ import {RouterLink} from 'vue-router'
                 Contestado el {{ formatearFecha(visita.created_at) }}
             </p>
         </div>
-        </div>
+    </div>
 </template>

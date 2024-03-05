@@ -1,5 +1,6 @@
 <script setup>
-    import Header from '@/components/header/Header.vue';
+    import PrincipalSlotLayout from '@/layouts/PrincipalSlotLayout.vue';
+    import WorkingPage from '@/components/UI/WorkingPage.vue';
     import Bar from '@/components/graficas/Bar.vue';
     import Bubble from '@/components/graficas/Bubble.vue';
     import Pie from '@/components/graficas/Pie.vue';
@@ -11,10 +12,13 @@
 </script>
 
 <template>
-    <Header :submenu="false" />
+    <PrincipalSlotLayout>
+        <template v-slot:contenido>
+            <WorkingPage />
+        </template>
+    </PrincipalSlotLayout>
 
-    <main class="px-4 my-8 container mx-auto mt-24">
-
+<!-- 
         <Bar />
 
         <Bubble />
@@ -29,6 +33,6 @@
 
         <Radar />
 
-        <Scatter />
-    </main>
+        <Scatter /> -->
+
 </template>
