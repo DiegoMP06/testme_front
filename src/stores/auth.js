@@ -37,6 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
             length: 'La Contraseña Debe Tener Entre 8 y 20 Caracteres',
             contains_symbol: 'La Contraseña debe Tener Al Menos Un Simbolo',
             contains_numeric: 'La Contraseña debe Tener Al Menos Un Numero',
+            contains_alpha: 'La Contraseña debe Tener Al Menos Una Letra',
         }
     };
 
