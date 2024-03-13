@@ -50,7 +50,6 @@ export default function() {
     });
 
     function obtenerVisitas(page = 1) {
-        pageVisitas.value = page;
         cargando.value = true;
 
         UserService.visitas(page)
@@ -60,13 +59,13 @@ export default function() {
                 metaVisitas.value = data.meta;
                 linksVisitas.value = data.links;
                 visitas.value = data.data;
+                pageVisitas.value = metaVisitas.value.current_page;
             })
             .catch(() => toast.error('Ha Ocurrido un Error'))
             .finally(() => cargando.value = false);
     }
 
     function obtenerVisitasSalas(page = 1) {
-        pageVisitasSalas.value = page;
         cargando.value = true;
 
         UserService.visitasSalas(page)
@@ -76,6 +75,7 @@ export default function() {
                 metaVisitasSalas.value = data.meta;
                 linksVisitasSalas.value = data.links;
                 visitasSalas.value = data.data;
+                pageVisitasSalas.value = metaVisitasSalas.value.current_page;
             })
             .catch(() => toast.error('Ha Ocurrido un Error'))
             .finally(() => cargando.value = false);

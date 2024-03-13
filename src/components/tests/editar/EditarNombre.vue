@@ -9,7 +9,8 @@
     });
 
     defineEmits([
-        'handle-submit-nombre'
+        'handle-submit-nombre',
+        'update:nombre',
     ]);
 
     const rules = {
@@ -33,7 +34,7 @@
                 placeholder="Nombre de la Version"
                 name="nombre"
                 validation="required|lenght:0,100"
-                v-model="version.nombre"
+                @input="$emit('update:nombre', $event)"
                 :validation-messages="rules"
             />
         </FormKit>

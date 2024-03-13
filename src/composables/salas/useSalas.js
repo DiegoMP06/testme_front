@@ -16,15 +16,15 @@ export default function useSalas() {
 
     function obtenerSalas(pagina = 1) {
         cargando.value = true;
-        page.value = pagina;
 
-        SalaService.obtenerSalas(page.value)
+        SalaService.obtenerSalas(pagina)
             .then(({data}) => {
                 data.links.links = formatearMetaLinks(data.meta);
 
                 salas.value = data.data;
                 links.value = data.links;
                 meta.value = data.meta;
+                page.value = meta.value.current_page;
             })
             .catch(error => console.log(error))
             .finally(() => cargando.value = false);

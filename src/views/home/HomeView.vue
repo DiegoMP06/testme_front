@@ -82,7 +82,7 @@
                 />
              
                 <div v-else>
-                    <div v-if="hasTests" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <div v-if="hasTests" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                         <TestHome 
                             v-for="test in tests"
                             :key="test.id"

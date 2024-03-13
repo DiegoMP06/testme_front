@@ -54,7 +54,7 @@
                 />
         
                 <div v-else>
-                    <div v-if="hasSalas" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <div v-if="hasSalas" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                         <SalaHome 
                             v-for="sala in salas"
                             :key="sala.id"

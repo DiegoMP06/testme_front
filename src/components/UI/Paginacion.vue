@@ -54,7 +54,7 @@
 </script>
 
 <template>
-    <div v-if="isPaginate" class="mt-10">
+    <div v-if="isPaginate" class="my-10">
 
         <div class="md:hidden flex gap-2 items-center justify-center md:justify-end">
             <button 

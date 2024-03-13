@@ -11,7 +11,7 @@ export default {
         });
     },
     obtenerTestSala(salaId, testSalaId) {
-        return axios.get(`/api/edu/salas/${salaId}/test-salas/${testSalaId}/visita-salas?wTipo=true&wCategoria=true&wUserVersion=true&wVisitaSala=true&wInstructions=true&wCampos=true&wCamposExtra=true`, {
+        return axios.get(`/api/edu/salas/${salaId}/test-salas/${testSalaId}/visita-salas?wTipo=true&wCategoria=true&wUserVersion=true&wVisitaSala=true&wInstructions=true&wCampos=true&wCamposExtra=true&wSalaTestSala=true&wTestVersionTestSala=true`, {
             headers: {
                 Authorization: `Bearer ${token}`
             },

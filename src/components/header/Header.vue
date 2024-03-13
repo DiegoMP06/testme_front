@@ -26,7 +26,6 @@
     defineProps({
         submenu: {
             type: [null, Boolean],
-            required: true,
         }
     });
 </script>

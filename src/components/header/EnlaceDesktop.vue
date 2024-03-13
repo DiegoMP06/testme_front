@@ -17,9 +17,7 @@
 
     const parametros = computed(() => {
         const parametros = {};
-
-        props.enlace?.params?.forEach(parametro => parametros[parametro] = params[parametro]);
-
+        props.enlace?.params?.forEach(parametro => parametros[parametro] = props.params[parametro]);
         return parametros;
     });
 

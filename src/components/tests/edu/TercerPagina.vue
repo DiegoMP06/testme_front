@@ -19,7 +19,7 @@
 
 <template>
     <div class="p-2 divide-y-2 divide-slate-300">
-        <div class="">
+        <div>
             <p class="text-slate-700 text-xl p-2 my-6 text-center">
                 <span class="font-bold text-teal-700">
                     {{ visita.puntuacion }}
@@ -44,6 +44,7 @@
             :respuestas="visita.respuestas"
             :normal="true"
             :num-campos="test.campos.length"
+            :is-examen="true"
         />
     </div>
 

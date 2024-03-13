@@ -13,7 +13,7 @@
 </script>
 
 <template>
-    <div class="fixed top-0 left-0 right-0 bottom-0 modal">
+    <div class="fixed top-0 left-0 right-0 bottom-0 modal z-50">
         <button 
             v-if="!subCargando"
             @click="$emit('quitar-modal')"

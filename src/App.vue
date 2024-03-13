@@ -104,4 +104,8 @@
     transform: translateX(-24rem);
   }
 
+  img {
+    width: 100%;
+    height: auto;
+  }
 </style>

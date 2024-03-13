@@ -41,11 +41,11 @@ export const useAuthStore = defineStore('auth', () => {
         }
     };
 
-    async function register(data) {
+    async function register(dataRegister) {
         cargando.value = true;
         UIService.csrf()
             .then(() => {
-                AuthService.register(data)
+                AuthService.register(dataRegister)
                     .then(({ data }) => {
                         localStorage.setItem('AUTH_TOKEN', data.AUTH_TOKEN);
                         user.value = data.user;
@@ -55,12 +55,32 @@ export const useAuthStore = defineStore('auth', () => {
                         if (error?.response?.status == 422) {
                             Object.values(error.response.data.errors).forEach(erroresArray => erroresArray.forEach(error => errores.value = [...errores.value, error]));
                         } else {
-                            toast.error('Ha Ocurrrido un Error');
+                            reRegister(dataRegister);
                         }
                     })
             })
             .catch(() => toast.error('Ha Ocurrido un Error'))
             .finally(() => cargando.value = false);
+    }
+
+    function reRegister(dataRegister) {
+        UIService.csrf()
+            .then(() => {
+                AuthService.register(dataRegister)
+                    .then(({ data }) => {
+                        localStorage.setItem('AUTH_TOKEN', data.AUTH_TOKEN);
+                        user.value = data.user;
+                        router.push({ name: 'auth.notification-email' });
+                    })
+                    .catch((error) => {
+                        if (error?.response?.status == 422) {
+                            Object.values(error.response.data.errors).forEach(erroresArray => erroresArray.forEach(error => errores.value = [...errores.value, error]));
+                        } else {
+                            toast.error('Ha Ocurrido un Error')
+                        }
+                    });
+            })
+            .catch(() => toast.error('Ha Ocurrido un Error'));
     }
 
     function sendEmail() {
@@ -74,11 +94,11 @@ export const useAuthStore = defineStore('auth', () => {
         .finally(() => cargando.value = false);
     }
 
-    function login(data) {
+    function login(dataLogin) {
         cargando.value = true;
         UIService.csrf()
             .then(() => {
-                AuthService.login(data)
+                AuthService.login(dataLogin)
                     .then(({ data }) => {
                         localStorage.setItem('AUTH_TOKEN', data.AUTH_TOKEN);
                         user.value = data.user;
@@ -88,12 +108,32 @@ export const useAuthStore = defineStore('auth', () => {
                         if (error?.response?.status == 422) {
                             Object.values(error.response.data.errors).forEach(erroresArray => erroresArray.forEach(error => errores.value = [...errores.value, error]));
                         } else {
-                            toast.error('Ha Ocurrrido un Error');
+                            reLogin(dataLogin);
                         }
                     });
             })
             .catch(() => toast.error('Ha Ocurrido un Error'))
             .finally(() => cargando.value = false);
+    }
+
+    function reLogin(dataLogin) {
+        UIService.csrf()
+            .then(() => {
+                AuthService.login(dataLogin)
+                    .then(({ data }) => {
+                        localStorage.setItem('AUTH_TOKEN', data.AUTH_TOKEN);
+                        user.value = data.user;
+                        router.push({ name: 'home.tests' });
+                    })
+                    .catch((error) => {
+                        if (error?.response?.status == 422) {
+                            Object.values(error.response.data.errors).forEach(erroresArray => erroresArray.forEach(error => errores.value = [...errores.value, error]));
+                        } else {
+                            toast.error('Ha Ocurrido un Error')
+                        }
+                    });
+            })
+            .catch(() => toast.error('Ha Ocurrido un Error'));
     }
 
     function logout() { 

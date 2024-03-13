@@ -1,38 +1,23 @@
 <script setup>
     import { RouterLink } from 'vue-router';
-    import { useModalStore } from '@/stores/modal';
     import useTest from '@/composables/tests/useTest';
     import Spinner from '@/components/UI/Spinner.vue';
     import HeadingDashboard from '@/components/dashboard/HeadingDashboard.vue';
-    import VersionTest from '@/components/tests/mostrar/VersionTest.vue';
+    import { useRoute } from 'vue-router';
     import { formatearVersion } from '@/helpers';
-    import ModalDashboard from '@/components/UI/ModalDashboard.vue';
-    import EditarNombre from '@/components/tests/editar/EditarNombre.vue';
-    import EditarDescripcion from '@/components/tests/editar/EditarDescripcion.vue';
-    import EditarCategoria from '@/components/tests/editar/EditarCategoria.vue';
+    import Paginacion from '@/components/UI/Paginacion.vue';
+    import VersionTest from '@/components/tests/mostrar/VersionTest.vue';
 
-    const modalStore =  useModalStore();
+    const route = useRoute();
 
     const {
         cargando,
-        subCargando,
+        versiones,
+        meta,
+        links,
         page,
-        test,
-        version,
-        selectsCategorias,
-        quitarModal,
-        handleSubmitNombre,
-        handleClickActualizarNombre,
-        handleSubmitDescripcion,
-        handleClickActualizarDescripcion,
-        handleSubmitCategoria,
-        handleClickActualizarCategoria,
-        handleClickActualizarPublico,
-        handleClickActualizarRespuestas,
+        obtenerVersiones,
         handleClickEliminarTest,
-        handleClickEliminarVersion,
-        handleClickPage,
-        canDeleteVersion,
     } = useTest();
 </script>
 
@@ -42,39 +27,25 @@
     <div v-else>
         <HeadingDashboard>Administrar Test</HeadingDashboard>
 
-        <div class="bg-white max-w-lg mt-10 shadow rounded p-4">
-            <h2 class="text-lg font-black text-teal-800 mb-5">Versiones: </h2>
+        <div class="bg-white mt-10 shadow rounded p-4">
+            <h2 class="text-xl font-black text-teal-800 mb-5">Versiones: </h2>
             
-            <nav class="flex flex-col gap-2">
-                <button 
-                    v-for="versionTest in test.versiones" 
-                    @click="handleClickPage(versionTest.id)"
-                    :key="versionTest.id"
-                    :disabled="page === versionTest.id"
-                    :class="[page === versionTest.id ? 'bg-gray-100 text-teal-800' : 'bg-teal-800 hover:bg-teal-900 text-white flex-1']"
-                    class="py-2 px-4 font-bold"
-                >
-                    {{ formatearVersion(versionTest.version) }}
-                </button>
-            </nav>
+            <div class="grid lg:grid-cols-2 gap-4">
+                <VersionTest 
+                    v-for="version in versiones"
+                    :version="version"
+                />
+            </div>
         </div>
+
+        <Paginacion 
+            :page="page"
+            :meta="meta"
+            :links="links"
+            @obtener-datos="obtenerVersiones"
+        />
     
         <div class="bg-white shadow rounded mx-auto mt-10 space-y-4 px-4 py-6">
-
-            <VersionTest
-                v-for="versionTest in test.versiones"
-                :key="versionTest.id"
-                :version-test="versionTest"
-                :page="page"
-                :can-delete-version="canDeleteVersion"
-                @handle-click-actualizar-nombre="handleClickActualizarNombre"
-                @handle-click-actualizar-descripcion="handleClickActualizarDescripcion"
-                @handle-click-actualizar-categoria="handleClickActualizarCategoria"
-                @handle-click-actualizar-publico="handleClickActualizarPublico"
-                @handle-click-actualizar-respuestas="handleClickActualizarRespuestas"
-                @handle-click-eliminar-version="handleClickEliminarVersion"
-            />
-
             <div class="p-2 bg-emerald-50">
                 <h2 class="p-2 text-xl font-extrabold text-slate-700">Opciones Generales: </h2>
                 
@@ -87,7 +58,7 @@
                             
                             <RouterLink 
                                 class=" bg-teal-800 hover:bg-teal-900 py-2 px-4 text-center text-white font-bold"
-                                :to="{name: 'dashboard.tests.editar', params: {id: test.id}}"
+                                :to="{name: 'dashboard.tests.editar', params: {id: route.params.id}}"
                             >
                                 Actualizar
                             </RouterLink>
@@ -113,29 +84,4 @@
             </div>
         </div>
     </div>
-
-    <ModalDashboard 
-        v-if="modalStore.isModal"
-        :sub-cargando="subCargando"
-        @quitar-modal="quitarModal"
-    >
-        <EditarNombre 
-            v-if="modalStore.hasModal === 3.1"
-            :version="version"
-            @handle-submit-nombre="handleSubmitNombre"
-        />
-        
-        <EditarDescripcion 
-            v-else-if="modalStore.hasModal === 3.2"
-            :version="version"
-            @handle-submit-descripcion="handleSubmitDescripcion"
-        />
-
-        <EditarCategoria 
-            v-else
-            :version="version"
-            :selects-categorias="selectsCategorias"
-            @handle-submit-categoria="handleSubmitCategoria"
-        />
-    </ModalDashboard>
 </template>

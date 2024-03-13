@@ -59,15 +59,15 @@ export default function useAgregarProfesor() {
 
     function obtenerProfesores(pagina = 1) {
         cargando.value = true;
-        page.value = pagina;
 
-        SalaService.obtenerProfesores(sala.id, page.value, busqueda.value)
+        SalaService.obtenerProfesores(sala.id, pagina, busqueda.value)
             .then((data) => {
                 data.data.links.links = formatearMetaLinks(data.data.meta);
 
                 users.value = data.data.data;
                 meta.value = data.data.meta;
                 links.value = data.data.links;
+                page.value = meta.value.current_page;
             })
             .catch(() => {
                 if(error?.response?.status === 403) {

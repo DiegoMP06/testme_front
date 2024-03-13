@@ -36,7 +36,7 @@
                 />
             </div>
         
-            <p v-else class="text-center text-lg font-black text-slate-700">No tienes Tests</p>
+            <p v-else class="text-center text-lg font-black text-slate-700">No tienes Salas</p>
         </div>
     
         <Paginacion 

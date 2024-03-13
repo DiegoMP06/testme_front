@@ -15,7 +15,10 @@
         }, 
         numCampos: {
             type: [null, Number],
-        }
+        },
+        isExamen: {
+            type: [null, Boolean],
+        },
     });
 
     const hasOptions = computed(() => {
@@ -27,7 +30,7 @@
     });
 
     const getPuntuacion = computed(() => {
-        if(props.normal) {
+        if(props.normal && props.isExamen) {
             return (props.respuestas.find(respuesta => respuesta.pregunta_id === props.campo.id).valor / props.numCampos * 100).toFixed(2);
         }
 
@@ -50,7 +53,7 @@
 
                 <ol class="space-y-2">
                     <li 
-                        v-if="normal"
+                        v-if="normal && isExamen"
                         v-for="option in campo.opciones"
                         :class="[Number(option.valor) ? 'bg-emerald-100 text-teal-800' : 'bg-red-100 text-red-800']"
                         class="font-semibold py-2 pr-2 pl-6 flex justify-between gap-2"
@@ -59,7 +62,7 @@
                             {{ option.opcion }}
                         </p>
     
-                        <div class="">
+                        <div>
                             <svg v-if="Number(option.valor)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                             </svg>
@@ -83,11 +86,11 @@
             </div>
 
             <div class="flex-1">
-                <h3 class="p-2 font-bold text-slate-700">Tus Respuestas</h3>
+                <h3 class="p-2 font-bold text-slate-700">Respuestas</h3>
 
                 <ol class="space-y-2">
                     <li 
-                        v-if="normal"
+                        v-if="normal && isExamen"
                         v-for="option in getRespuesta.options"
                         :class="[Number(option.valor) ? 'bg-emerald-100 text-teal-800' : 'bg-red-100 text-red-800']"
                         class="font-semibold py-2 pr-2 pl-6 flex justify-between gap-2"
@@ -109,7 +112,7 @@
 
                     <li 
                         v-else
-                        v-for="option in getRespuesta.opciones"
+                        v-for="option in getRespuesta.options"
                         class="font-semibold py-2 pr-2 pl-6 text-slate-700 bg-slate-100"
                     >
                         <p class="flex-1 truncate">
@@ -124,7 +127,11 @@
             <p class="text-lg font-bold text-teal-800">Valor: </p>
 
             <p v-if="normal" class="text-slate-700 font-bold">
-                {{ getPuntuacion }} Puntos
+                {{ isExamen ? getPuntuacion : getRespuesta.valor }} Puntos
+            </p>
+
+            <p v-else-if="hasOptions" class="text-slate-700 font-bold" v-for="respuesta in JSON.parse(getRespuesta.valor)">
+                {{ respuesta }}
             </p>
 
             <p v-else class="text-slate-700 font-bold">

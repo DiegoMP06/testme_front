@@ -139,6 +139,26 @@ const router = createRouter({
           component: () => import('../views/dashboard/tests/TestView.vue'),
         },
         {
+          path: '/dashboard/tests/:testId/version/:versionId',
+          name: 'dashboard.tests.version',
+          component: () => import('../views/dashboard/tests/VersionView.vue'),
+        },
+        {
+          path: '/dashboard/tests/:testId/version/:versionId/resultados',
+          name: 'dashboard.tests.version.resultados',
+          component: () => import('../views/dashboard/tests/ResultadosView.vue'),
+        },
+        {
+          path: '/dashboard/tests/:testId/version/:versionId/resultados/:visitaId',
+          name: 'dashboard.tests.version.resultado',
+          component: () => import('../views/dashboard/tests/ResultadoView.vue'),
+        },
+        {
+          path: '/dashboard/tests/:testId/version/:versionId/salas',
+          name: 'dashboard.tests.version.salas',
+          component: () => import('../views/dashboard/tests/SalasView.vue'),
+        },
+        {
           path: '/dashboard/tests/crear',
           name: 'dashboard.tests.crear',
           component: () => import('../views/dashboard/tests/CrearTestView.vue'),

@@ -1,4 +1,6 @@
 <script setup>
+    import {RouterLink} from 'vue-router';
+
     const props = defineProps({
         isExamen: {
             required: true,
@@ -12,7 +14,10 @@
         canDeleteVersion: {
             required: true,
         },
-        versionTestId: {
+        versionId: {
+            required: true,
+        },
+        testId: {
             required: true,
         }
     });
@@ -29,6 +34,34 @@
         <h2 class="p-2 text-xl font-extrabold text-slate-700">Opciones de la Version: </h2>
         
         <div class="py-4 space-y-6 divide-y-2 divide-emerald-300">
+            <div 
+                class="p-2"
+            >
+                <h3 class="font-bold text-teal-800">¿Deseas ver Las Salas Enlazadas a la Version?</h3>
+
+                <div>
+                    <p class="py-4 px-2 text-slate-700 mb-6">Esta Opcion Te Llevara a una Pagina Donde se Muestran Todas Las Salas Enlazadas a Este Test.</p>
+                    
+                    <RouterLink :to="{name: 'dashboard.tests.version.salas', params: {testId, versionId}}" class="bg-teal-800 hover:bg-teal-900 text-white inline-block py-2 px-4 font-bold">
+                        Ver Salas
+                    </RouterLink>
+                </div>
+            </div>
+
+            <div 
+                class="p-2"
+            >
+                <h3 class="font-bold text-teal-800">¿Deseas ver Los Resultados de La Version?</h3>
+
+                <div>
+                    <p class="py-4 px-2 text-slate-700 mb-6">Esta Opcion Te Llevara a una Pagina Donde se Muestran Todos Los Resultados Obtenidos Con Este Test.</p>
+                    
+                    <RouterLink :to="{name: 'dashboard.tests.version.resultados', params: {testId, versionId}}" class="bg-teal-800 hover:bg-teal-900 text-white inline-block py-2 px-4 font-bold">
+                        Ver Resultados
+                    </RouterLink>
+                </div>
+            </div>
+
             <div class="p-2">
                 <h3 class="font-bold text-teal-800">¿Deseas {{ isPublico ?  'Ocultar' : 'Publicar'}} la Version del Test?</h3>
                 
@@ -37,7 +70,7 @@
                     
                     <button 
                         v-if="isPublico" 
-                        @click="$emit('handle-click-actualizar-publico', versionTestId)" 
+                        @click="$emit('handle-click-actualizar-publico', versionId)" 
                         type="button" 
                         class="bg-rose-800 hover:bg-rose-900 text-white flex gap-2 justify-center py-2 px-4 font-bold "
                     >
@@ -49,9 +82,9 @@
 
                     <button 
                         v-else 
-                        @click="$emit('handle-click-actualizar-publico', versionTestId)"
+                        @click="$emit('handle-click-actualizar-publico', versionId)"
                         type="button" 
-                        class="bg-teal-800 hover:bg-teal-900 text-white flex gap-2 justify-center py-2 px-4 font-bold "
+                        class="bg-teal-800 hover:bg-teal-900 text-white flex gap-2 justify-center py-2 px-4 font-bold"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
@@ -73,7 +106,7 @@
                     
                     <button 
                         v-if="hasRespuestas" 
-                        @click="$emit('handle-click-actualizar-respuestas', versionTestId)" 
+                        @click="$emit('handle-click-actualizar-respuestas', versionId)" 
                         type="button" 
                         class="bg-rose-800 hover:bg-rose-900 text-white flex gap-2 justify-center py-2 px-4 font-bold "
                     >
@@ -85,7 +118,7 @@
 
                     <button 
                         v-else 
-                        @click="$emit('handle-click-actualizar-respuestas', versionTestId)" 
+                        @click="$emit('handle-click-actualizar-respuestas', versionId)" 
                         type="button" 
                         class="bg-teal-800 hover:bg-teal-900 text-white flex gap-2 justify-center py-2 px-4 font-bold "
                     >
@@ -108,7 +141,7 @@
                     <p class="py-4 px-2 text-slate-700 mb-6">Esta Opcion Eliminara Solamente Esta Version del Test Permanentemente.</p>
                     
                     <button 
-                        @click="$emit('handle-click-eliminar-version', versionTestId)"
+                        @click="$emit('handle-click-eliminar-version', versionId)"
                         class=" bg-rose-800 hover:bg-rose-900 py-2 px-4 text-white font-bold"
                         type="button"
                     >

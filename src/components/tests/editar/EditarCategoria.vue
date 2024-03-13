@@ -1,7 +1,7 @@
 <script setup>
     import { FormKit } from '@formkit/vue';
-
-    const props = defineProps({
+    
+    defineProps({
         version: {
             type: Object,
             required: true,
@@ -14,6 +14,7 @@
 
     defineEmits([
         'handle-submit-categoria',
+        'update:categoria',
     ]);
 
     const rules = { 
@@ -38,7 +39,7 @@
                 validation="required|number"
                 :options="selectsCategorias"
                 :validation-messages="rules"
-                v-model="version.categoria_id"
+                @input="$emit('update:categoria', $event)"
             />
         </FormKit>
     </div>

@@ -16,18 +16,18 @@ export default function useTests() {
 
     const obtenerTests = (pagina = 1) => {
         cargando.value = true;
-        page.value = pagina;
 
-        TestService.index(page.value)
+        TestService.index(pagina)
         .then(({data}) => {
-            data.links.links = formatearMetaLinks(data.meta);
+                data.links.links = formatearMetaLinks(data.meta);
 
-            tests.value = data.data;
-            links.value = data.links;
-            meta.value = data.meta;
-        })
-        .catch(() => toast.error('Ha Ocurrido Un Error'))
-        .finally(() => cargando.value = false);
+                tests.value = data.data;
+                links.value = data.links;
+                meta.value = data.meta;
+                page.value = meta.value.current_page;
+            })
+            .catch(() => toast.error('Ha Ocurrido Un Error'))
+            .finally(() => cargando.value = false);
     }
 
     function editarPublico(id) {

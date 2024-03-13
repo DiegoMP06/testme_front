@@ -25,8 +25,7 @@ export default function() {
         router.push({name: 'not-found'});
     });
 
-    function obtenerSalas(pagina = 1) {        
-        page.value = pagina;
+    function obtenerSalas(pagina = 1) {
         cargando.value = true;
 
         UserService.salas(pagina)
@@ -36,6 +35,7 @@ export default function() {
                 salas.value = data.data;
                 meta.value = data.meta;
                 links.value = data.links;
+                page.value = meta.value.current_page;
             })
             .catch(() => toast.error('Ha Ocurrido un Error'))
             .finally(() => cargando.value = false);

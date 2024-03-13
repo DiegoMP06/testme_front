@@ -21,16 +21,16 @@ export default function useAgregarTest() {
     });
 
     function obtenerTests(pagina = 1) {
-        page.value = pagina;
         cargando.value = true;
 
-        TestService.obtenerTestsVersiones(route.params.id, page.value)
+        TestService.obtenerTestsVersiones(route.params.id, pagina)
             .then(({data}) => {
                 data.links.links = formatearMetaLinks(data.meta);
 
                 tests.value = data.data;
                 links.value = data.links;
                 meta.value = data.meta;
+                page.value = meta.value.current_page;
             })
             .catch((error) => {
                 if(error?.response?.status === 403) {

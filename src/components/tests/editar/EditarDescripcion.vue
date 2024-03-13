@@ -10,6 +10,7 @@
 
     defineEmits([
         'handle-submit-descripcion',
+        'update:descripcion',
     ]);
 
     const rules = {
@@ -33,7 +34,7 @@
                 placeholder="Descipcion de la Version"
                 name="descripcion"
                 validation="required|lenght:50,1000"
-                v-model="version.descripcion"
+                @input="$emit('update:descripcion', $event)"
                 :validation-messages="rules"
             />
         </FormKit>

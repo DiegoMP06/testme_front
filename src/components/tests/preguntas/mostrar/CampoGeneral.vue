@@ -27,8 +27,8 @@
                     {{ opcion.opcion }}
                 </p>
 
-                <p v-if="isExamen" class="text-xs font-black" :class="[opcion.valor ? 'text-teal-700' : 'text-red-700']">
-                    {{ opcion.valor ? 'Correcto' : 'Incorrecto' }} 
+                <p v-if="isExamen" class="text-xs font-black" :class="[Number(opcion.valor) ? 'text-teal-700' : 'text-red-700']">
+                    {{ Number(opcion.valor) ? 'Correcto' : 'Incorrecto' }} 
                 </p>
 
                 <p v-else class="text-xs font-black text-slate-700">
