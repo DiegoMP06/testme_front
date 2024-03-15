@@ -24,7 +24,7 @@
         UIService.csrf()
             .then(() => {
                 AuthService.verificarEmail({ ...route.params, ...route.query })
-                    .then(() => router.push({name: 'home.salas'}))
+                    .then(() => router.push({name: 'home.tests'}))
                     .catch(() => {
                         toast.error('Ha Ocurrido un Error')
                         error.value = true;

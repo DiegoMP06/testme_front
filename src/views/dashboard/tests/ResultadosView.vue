@@ -49,6 +49,7 @@
                                 <span class="text-slate-200">
                                     {{ resultado.value }} Persona(s)
                                 </span>
+                                {{ resultado.porcent }}%
                             </li>
                         </ol>
                     </div>

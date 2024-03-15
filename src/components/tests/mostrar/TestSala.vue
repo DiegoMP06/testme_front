@@ -3,7 +3,15 @@
         sala: {
             required: true,
             type: Object,
-        }
+        },
+        testId: {
+            required: true,
+            type: [Number, String],
+        },
+        versionId: {
+            required: true,
+            type: [Number, String],
+        },
     });
 </script>
 
@@ -32,5 +40,11 @@
                 </p>
             </div>
         </RouterLink>
+
+        <div>
+            <RouterLink :to="{name: 'dashboard.tests.version.salas.resultados', params: {testId, versionId, salaId: sala.id}}" class="text-white font-bold px-4 py-2 bg-teal-800 hover:bg-teal-900 transition-colors inline-block mt-6">
+                Ver Resultados
+            </RouterLink>
+        </div>
     </div>
 </template>

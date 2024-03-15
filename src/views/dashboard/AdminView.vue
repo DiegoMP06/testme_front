@@ -1,8 +1,9 @@
 <script setup>
+    import WorkingPage from '@/components/UI/WorkingPage.vue';
 </script>
 
 <template>
     <div>
-        Desde Admin View
+        <WorkingPage />
     </div>
 </template>

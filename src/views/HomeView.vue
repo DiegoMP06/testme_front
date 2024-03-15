@@ -30,7 +30,7 @@
         <div class="px-4 py-8 container mx-auto">
             <h2 class="text-2xl font-extrabold text-white">Sobre Nosotros</h2>
 
-            <p class="text-white font-semibold my-6">Hola, somos alumnos del Cbtis No. 211, creemos que los exámenes son un gran trabajo y se gasta mucho tiempo que se puede ahorrar, y que con las nuevas tecnologías se puede facilitar a los docentes creando tests, exámenes, y salas para sus alumnos.</p>
+            <p class="text-white font-semibold my-6">Hola, somos alumnos del Cbtis No. 211, creemos que los exámenes son una actividad que para su elaboracion llava tiempo y costo en papeleria, y que con las nuevas tecnologías se puede facilitar a los docentes creando tests, exámenes, y salas para sus alumnos.</p>
 
             <div class="flex flex-col md:flex-row gap-4 mt-4 md:items-center">
                 <img 
@@ -44,8 +44,8 @@
 
                 <div class="flex-1">
                     
-                    <p class="text-white font-semibold my-2">Con la contingencia del Covid-19, nos tuvimos que adaptar y utilizar tecnologías como la web, conforme a esto decidimos crear TestMe. Una plataforma donde se pueden crear encuestas a alumnado de una institución sin necesidad de gastar papel, invertir mucho tiempo y esfuerzo, está siendo una página web.</p>
-                    <p class="text-white font-semibold my-2">También durante la pandemia, hubo trastornos mentales causados por el encierro, por esto decidimos crear tests psicológicos con ayuda de nuestros psicólogos de la institución, luego los aplicamos en la comunidad estudiantil y brindaremos ayuda más rápido.</p>
+                    <p class="text-white font-semibold my-2">Con la contingencia del Covid-19, nos tuvimos que adaptar y utilizar tecnologías como la web, conforme a esto decidimos crear TestMe. Una plataforma donde se pueden crear encuestas a alumnado de una institución sin necesidad de gastar papel, invertir mucho tiempo y esfuerzo, está herramienta siendo una página web.</p>
+                    <p class="text-white font-semibold my-2">También durante la pandemia, hubo trastornos mentales causados por el aislamiento, por esto decidimos crear tests psicológicos con ayuda de psicólogos de la institución, luego los aplicamos en la comunidad estudiantil y brindaremos ayuda más rápido.</p>
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@
                 <div class="flex-1 flex gap-4 flex-col">
                     <h3 class="text-xl font-extrabold text-teal-800">Tests Psicologicos:</h3>
     
-                    <p class="text-slate-700 font-semibold">Esta herramienta no solo se creó para tests educativos, sino también para hacer un buen uso de la psicología y otros campos, este siendo uno de los motivos por lo que se creó Testme.</p>
+                    <p class="text-slate-700 font-semibold">Esta herramienta no solo se creó para tests educativos, sino para auxiliar en la detccion de transtornos de ansiedad y otros campos, este siendo uno de los motivos por lo que se creó Testme.</p>
                 </div>
             </div>
 
@@ -104,9 +104,9 @@
                 />
     
                 <div class="flex-1 flex gap-4 flex-col">
-                    <h3 class="text-xl font-extrabold text-teal-800">Cálculo Matemático:</h3>
+                    <h3 class="text-xl font-extrabold text-teal-800">Tratamiento de los Datos:</h3>
     
-                    <p class="text-slate-700 font-semibold">Estar haciendo cálculos es muy molesto, por lo cual esta herramienta se optimizó para exámenes y tests con escala de Likert, así el profesor obtendrá el mayor provecho de esta herramienta.</p>
+                    <p class="text-slate-700 font-semibold">Estar haciendo cálculos implica realizar tareas con los datos de manera manual, por lo cual esta herramienta se optimizó para exámenes y tests con escala de Likert, así el profesor obtendrá el mayor provecho de esta herramienta.</p>
                 </div>
             </div>
 

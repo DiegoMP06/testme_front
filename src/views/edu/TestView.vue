@@ -57,7 +57,7 @@
                     </p>
             
                     <RouterLink 
-                        :to="{name: ''}" 
+                        :to="{name: 'user.perfil', params: {user: test.user.usuario}}" 
                         class="text-sm font-normal text-slate-600 flex gap-2"
                     >
                         <img 

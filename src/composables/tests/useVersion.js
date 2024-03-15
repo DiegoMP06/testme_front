@@ -120,13 +120,13 @@ export default function() {
     async function eliminarVersion(id) {
         try {
             await TestService.eliminarVersion(id, test.id);
-            test.versiones = test.versiones.filter(version => version.id !== id);
-            page.value = test.versiones[test.versiones.length-1].id;
 
             Swal.fire({
                 title: "Eliminado",
                 text: "El Test Se Elimino.",
                 icon: "success"
+            }).then(() => {
+                router.push({name: 'dashboard.tests.index', params: {id: test.id}});
             });
         } catch (error) {
             Swal.fire({

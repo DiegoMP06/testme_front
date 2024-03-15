@@ -44,7 +44,11 @@
             Se Contesto el {{ formatearFecha(resultado.created_at) }}
         </p>
 
-        <RouterLink :to="{name: 'dashboard.tests.version.resultado', params: {testId:  route.params.testId, versionId: route.params.versionId, visitaId: resultado.id}}" class="mt-4 inline-block font-bold text-white bg-teal-800 hover:bg-teal-900 transition-colors px-4 py-2">
+        <RouterLink v-if="route.name === 'dashboard.tests.version.salas.resultados'" :to="{name: 'dashboard.tests.version.salas.resultado', params: {testId:  route.params.testId, versionId: route.params.versionId, visitaId: resultado.id, salaId: resultado.sala_test_id}}" class="mt-4 inline-block font-bold text-white bg-teal-800 hover:bg-teal-900 transition-colors px-4 py-2">
+            Ver Mas
+        </RouterLink>
+
+        <RouterLink v-else :to="{name: 'dashboard.tests.version.resultado', params: {testId:  route.params.testId, versionId: route.params.versionId, visitaId: resultado.id}}" class="mt-4 inline-block font-bold text-white bg-teal-800 hover:bg-teal-900 transition-colors px-4 py-2">
             Ver Mas
         </RouterLink>
     </div>

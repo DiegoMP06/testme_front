@@ -45,19 +45,26 @@ export default function() {
 
             const [{data: {data: [dataTest]}}, {data: {data: [dataVersion]}}, {data: dataRespuestas}] = await Promise.all([
                 TestService.show(route.params.testId),
-                TestService.obtenerVersionResultados(route.params.testId, route.params.versionId),
-                TestService.obtenerResultados(route.params.versionId),
+                route.name === "dashboard.tests.version.resultados" ? TestService.obtenerVersionResultados(route.params.testId, route.params.versionId) : TestService.obtenerVersionSalaResultados(route.params.versionId, route.params.salaId),
+                route.name === "dashboard.tests.version.resultados" ? TestService.obtenerResultados(route.params.versionId) : TestService.obtenerResultadosSala(route.params.versionId, route.params?.salaId),
             ]);
 
             Object.assign(test, dataTest);
-            Object.assign(version, dataVersion);
-            
+
             dataRespuestas.links.links = formatearMetaLinks(dataRespuestas.meta);
             
             respuestas.value = dataRespuestas.data;
             meta.value = dataRespuestas.meta;
             links.value = dataRespuestas.links;
             page.value = meta.value.current_page;
+
+            if(route.name === "dashboard.tests.version.resultados") {
+                Object.assign(version, dataVersion);
+                return;
+            }
+
+            Object.assign(version, dataVersion.test_version);
+            version.visitas = dataVersion.visitasSala;
         } catch (error) {
             if(error?.response?.status === 404 || error?.response?.status === 403) {
                 router.push({name: 'dashboard.tests.index', params: {id: route.params.testId}})
@@ -72,7 +79,7 @@ export default function() {
     function obtenerResultados(pagina) {
         cargando.value = true;
 
-        TestService.obtenerResultados(route.params.versionId, pagina, busqueda.value)
+        route.name === "dashboard.tests.version.resultados" ? TestService.obtenerResultados(route.params.versionId, pagina, busqueda.value) : TestService.obtenerResultadosSala(route.params.versionId, route.params.salaId, pagina, busqueda.value) 
             .then(({data}) => {
                 data.links.links = formatearMetaLinks(data.meta);
                 respuestas.value = data.data;
@@ -86,9 +93,12 @@ export default function() {
 
     const formatearInstrucciones = computed(() => {
         return version.instrucciones.map(({titulo, min, max}) => {
+            const numVisitas = version.visitas.filter(({puntuacion}) => puntuacion >= min && puntuacion <= max).length;
+
             return {
                 label: titulo,
-                value: version.visitas.filter(({puntuacion}) => puntuacion >= min && puntuacion <= max).length,
+                value: numVisitas,
+                porcent: (numVisitas / version.visitas.length * 100).toFixed(2),
             }
         });
     })

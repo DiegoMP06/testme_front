@@ -50,7 +50,7 @@ export default function() {
             const [{data: {data: [dataTest]}}, {data: {data: [dataVersion]}}, {data: {data: [dataRespuesta]}}] = await Promise.all([
                 TestService.show(route.params.testId),
                 TestService.obtenerVersion(route.params.testId, route.params.versionId),
-                TestService.obtenerResultado(route.params.versionId, route.params.visitaId),
+                route.name === 'dashboard.tests.version.resultado' ? TestService.obtenerResultado(route.params.versionId, route.params.visitaId) : TestService.obtenerResultadoSala(route.params.versionId, route.params.salaId, route.params.visitaId),
             ]);
 
             Object.assign(test, dataTest);

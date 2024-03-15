@@ -35,6 +35,8 @@
                 <TestSala 
                     v-for="sala in salas"
                     :sala="sala"
+                    :test-id="test.id"
+                    :version-id="version.id"
                 />
             </div>
 
